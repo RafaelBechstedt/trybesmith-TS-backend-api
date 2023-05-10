@@ -1,6 +1,7 @@
-import { ResultSetHeader } from 'mysql2';
+import { ResultSetHeader, RowDataPacket } from 'mysql2';
 import connection from './connection';
 import { IUser } from '../interfaces/IUser';
+import { ILogin } from '../interfaces/ILogin';
 
 async function addUser(user:IUser): Promise<IUser> {
   const { username, vocation, level, password } = user;
@@ -16,11 +17,12 @@ async function addUser(user:IUser): Promise<IUser> {
   };
 }
 
-// async function getAll(): Promise<IProduct[]> {
-//   const [products] = await connection.execute<RowDataPacket[] & IProduct[]>(
-//     'SELECT * from Trybesmith.products',
-//   );
-//   return products;
-// }
+async function login(username: string): Promise<ILogin | undefined> {
+  const [[user]] = await connection.execute<RowDataPacket[]>(
+    'SELECT * FROM Trybesmith.users WHERE username = ?',
+    [username],
+  );
+  return user as ILogin | undefined;
+}
 
-export default { addUser };
+export default { addUser, login };
