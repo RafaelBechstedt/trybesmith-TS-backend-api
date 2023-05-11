@@ -6,4 +6,10 @@ async function getAll(): Promise<IOrder[]> {
   return orders;
 }
 
-export default { getAll };
+async function createOrder(order: { productsIds: number[] }, userId: number):
+Promise<null | { message: string }> {
+  await ordersModel.createOrder(order, userId);
+  return null;
+}
+
+export default { getAll, createOrder };

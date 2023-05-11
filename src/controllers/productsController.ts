@@ -12,4 +12,5 @@ async function getAll(req: Request, res: Response) {
   const products = await productsService.getAll();
   return res.status(200).json(products);
 }
+
 export default { addProduct, getAll };
